@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "964303988633",
+    "project_id": "sandipan-my-notes",
+    "storage_bucket": "sandipan-my-notes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:964303988633:android:294fda197a496e2cdd5508",
+        "android_client_info": {
+          "package_name": "com.sandipan.mynotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "964303988633-6megfo4b4qrqdbob727n0p8a6hbdpa78.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWslAyRjJcbKDegF4WzyemsexZHI3LafQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "964303988633-6megfo4b4qrqdbob727n0p8a6hbdpa78.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
