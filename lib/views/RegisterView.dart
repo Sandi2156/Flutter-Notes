@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:mynotes/constants/routes.dart';
+import 'package:mynotes/utils/show_eror_dialog.dart';
 import '../firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -39,6 +40,7 @@ class _RegisterViewState extends State<RegisterView> {
             controller: _email,
             enableSuggestions: false,
             autocorrect: false,
+            keyboardType: TextInputType.emailAddress,
             decoration: const InputDecoration(hintText: "enter email here"),
           ),
           TextField(
@@ -46,7 +48,6 @@ class _RegisterViewState extends State<RegisterView> {
             obscureText: true,
             enableSuggestions: false,
             autocorrect: false,
-            keyboardType: TextInputType.emailAddress,
             decoration: const InputDecoration(hintText: "enter passoword here"),
           ),
           TextButton(
@@ -55,12 +56,24 @@ class _RegisterViewState extends State<RegisterView> {
                 final email = _email.text;
                 final password = _password.text;
 
-                final userCredential = await FirebaseAuth.instance
-                    .createUserWithEmailAndPassword(
-                        email: email, password: password);
-                print(userCredential);
+                await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                    email: email, password: password);
+
+                await FirebaseAuth.instance.currentUser
+                    ?.sendEmailVerification();
+                Navigator.of(context).pushNamed(verifyEmailRoute);
+              } on FirebaseAuthException catch (e) {
+                if (e.code == 'weak-password') {
+                  await showErrorDialog(context, 'weak password');
+                } else if (e.code == 'email-already-in-use') {
+                  await showErrorDialog(context, 'email alread in use');
+                } else if (e.code == 'invalid-email') {
+                  await showErrorDialog(context, 'invalid email');
+                } else {
+                  await showErrorDialog(context, "Error: ${e.code}");
+                }
               } catch (e) {
-                print(e);
+                await showErrorDialog(context, "Error: ${e.toString()}");
               }
             },
             child: const Text("Sign up"),
@@ -70,7 +83,7 @@ class _RegisterViewState extends State<RegisterView> {
                     Navigator.of(context)
                         .pushNamedAndRemoveUntil(loginRoute, (route) => false)
                   },
-              child: const Text("Login"))
+              child: const Text("Already an user, Login Here"))
         ],
       ),
     );

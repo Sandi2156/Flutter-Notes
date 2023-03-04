@@ -41,6 +41,7 @@ class _LoginViewState extends State<LoginView> {
             controller: _email,
             enableSuggestions: false,
             autocorrect: false,
+            keyboardType: TextInputType.emailAddress,
             decoration: const InputDecoration(hintText: "enter email here"),
           ),
           TextField(
@@ -48,7 +49,6 @@ class _LoginViewState extends State<LoginView> {
             obscureText: true,
             enableSuggestions: false,
             autocorrect: false,
-            keyboardType: TextInputType.emailAddress,
             decoration: const InputDecoration(hintText: "enter passoword here"),
           ),
           TextButton(
@@ -65,10 +65,15 @@ class _LoginViewState extends State<LoginView> {
 
                 devtools.log(userCredential.toString());
 
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                  notesRoute,
-                  (route) => false,
-                );
+                final user = FirebaseAuth.instance.currentUser;
+                if (user != null && user.emailVerified) {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    notesRoute,
+                    (route) => false,
+                  );
+                } else if (user != null) {
+                  Navigator.of(context).pushNamed(verifyEmailRoute);
+                }
               } on FirebaseAuthException catch (e) {
                 if (e.code == "user-not-found") {
                   await showErrorDialog(context, "user not found");
@@ -88,7 +93,7 @@ class _LoginViewState extends State<LoginView> {
                     Navigator.of(context).pushNamedAndRemoveUntil(
                         registerRoute, (route) => false)
                   },
-              child: const Text("Register"))
+              child: const Text("Don't have an account, Register here !"))
         ],
       ),
     );
