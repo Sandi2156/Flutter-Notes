@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:mynotes/constants/routes.dart';
 import 'package:mynotes/views/LoginView.dart';
-import 'package:mynotes/views/MyNotesView.dart';
+import 'package:mynotes/views/notes/MyNotesView.dart';
 import 'package:mynotes/views/RegisterView.dart';
 import 'package:mynotes/views/VerifyEmailView.dart';
 import 'package:mynotes/services/auth/autth_service.dart';
+import 'package:mynotes/views/notes/new_note_view.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -19,6 +20,7 @@ void main() {
       registerRoute: (context) => const RegisterView(),
       notesRoute: (context) => const MyNotesView(),
       verifyEmailRoute: (context) => const VefiyEmailView(),
+      newNoteRoute: (context) => const NewNoteView()
     },
   ));
 }
